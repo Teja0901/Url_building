@@ -1,20 +1,31 @@
-from flask import Flask, redirect, url_for
-app = Flask(__name__)
+from flask import Flask
 
-@app.route('/admin')
-def hello_admin():
-   return 'Hello Admin'
+app=Flask(__name__)
 
-@app.route('/guest/<guest>')
-def hello_guest(guest):
-   return 'Hello %s as Guest' % guest
+@app.route('/')
+def welcome():
+  return "Welcome to url_building"
 
-@app.route('/user/<name>')
-def hello_user(name):
-   if name =='admin':
-      return redirect(url_for('hello_admin'))
-   else:
-      return redirect(url_for('hello_guest',guest = name))
+@app.route('/success/<int:marks>')
+def success(marks):
+  return "The person is passed and scored the "+str(marks)
 
-if __name__ == '__main__':
-   app.run(debug = True)
+@app.route('/fail/<int:marks>')
+def fail(marks):
+  return "The person is failed and scored the "+str(marks)
+   
+###RESULT_CHECKER
+
+@app.route('/results/<int:marks>')
+def results(marks):
+  results=""
+  if(marks>=35):
+    return "The person is passed and scored the "+str(marks)
+  else:
+    return "The person is failed and scored the "+str(marks)
+
+  return redirect(url_for('results'))
+
+if __name__=='__main__':
+  app.run(debug=True)
+
